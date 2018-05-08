@@ -38,6 +38,10 @@ class My_List_Games {
 	    );
 	}
 
+	/*
+		Render the Form 
+	 */
+
 	function mgp_render_form() {
 		global $title;
 
@@ -48,6 +52,10 @@ class My_List_Games {
 		}	    
 	}
 
+	/*
+		Render the List
+	 */
+
 	function mgp_render_list() {
 		global $title;
 
@@ -56,6 +64,30 @@ class My_List_Games {
 		if(file_exists($file)) {
 			require $file;
 		}
+	}
+
+	/*
+		Create the table to plugin
+	 */
+	
+	public static function mgp_install(){
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . "mgp_table";
+
+		echo $table_name;
+	}
+
+	public static function mgp_file_upload($file) {
+
+		$uploaded = media_handle_upload($file, 0);
+
+		if (is_wp_error($uploaded)) {
+			echo "Erro ao fazer upload ".$uploaded->get_error_message();
+		} else {
+			echo "Upload concluido!";
+		}
+
 	}
 
 }
