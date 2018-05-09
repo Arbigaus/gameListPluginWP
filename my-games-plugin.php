@@ -10,6 +10,9 @@
 	License URI:  https://www.gnu.org/licenses/gpl-2.0.html		
  */
 
+
+register_activation_hook( __FILE__, array ('My_List_Games', 'mgp_install' ));
+
 add_action( 'admin_menu', array ('My_List_Games','mgp_register_menu') );
 
 class My_List_Games {
@@ -58,12 +61,36 @@ class My_List_Games {
 
 	function mgp_render_list() {
 		global $title;
+		global $wpdb;
 
 		$file = plugin_dir_path( __FILE__ )."mgp-list.php";
+
+		$table_name = $wpdb->prefix . "mgp_table";
+
+		$data =	$wpdb->get_results("SELECT * FROM ".$table_name);
+
+
 
 		if(file_exists($file)) {
 			require $file;
 		}
+	}	
+
+	public static function mgp_file_upload($mgp_file) {
+		
+		// $overrides = array( 'test_form' => false);
+		$uploaded = media_handle_upload($mgp_file, 0);
+
+		if ($uploaded && ! isset($uploaded['error'])) {
+			return $uploaded;
+		} else {
+			return $uploaded;		
+		}
+
+	}
+
+	public static function del_item($item_id) {
+		echo $item_id;
 	}
 
 	/*
@@ -75,19 +102,20 @@ class My_List_Games {
 
 		$table_name = $wpdb->prefix . "mgp_table";
 
-		echo $table_name;
-	}
+		$charset_collate = $wpdb->collate;
 
-	public static function mgp_file_upload($file) {
-
-		$uploaded = media_handle_upload($file, 0);
-
-		if (is_wp_error($uploaded)) {
-			echo "Erro ao fazer upload ".$uploaded->get_error_message();
-		} else {
-			echo "Upload concluido!";
-		}
-
+		$sql = "CREATE TABLE $table_name (
+		  id mediumint(9) NOT NULL AUTO_INCREMENT,
+		  game_name varchar(32) NULL,
+		  game_year mediumint(4) NULL,
+		  date_bought date DEFAULT '0000-00-00' NULL,
+		  media_id mediumint(9) NULL,
+		  PRIMARY KEY  (id)
+		) COLLATE {$charset_collate}";
+		
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
+		
 	}
 
 }
