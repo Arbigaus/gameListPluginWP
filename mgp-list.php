@@ -19,7 +19,7 @@
 			<td><h2><?php echo $game->game_name; ?></h2></td>
 			<td><?php echo $game->game_year; ?></td>
 			<td>Comprado em: <?php echo $game->date_bought; ?></td>
-			<td><a class="button button-primary" href="<?php echo $url; ?>mgp-del-item.php?item_id=<?php echo $game->id; ?>">Editar</a></td>
+			<td><a class="button button-primary" href="<?php echo $url; ?>mgp-del-item.php?del_item_id=<?php echo $game->id; ?>">Editar</a></td>
 			<td><a class="button button-secondary" href="#">Deletar</a></td>
 		</tr>
 		<?php endforeach; ?>		

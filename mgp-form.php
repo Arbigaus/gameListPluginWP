@@ -8,7 +8,7 @@
 		<input type="text" name="game_name" placeholder="Nome do Jogo"><br>
 		<hr>
 		Ano de lançamento:<br>
-		<input type="year" name="game_year" placeholder="Ano"><br>
+		<input type="number" name="game_year" placeholder="Ano"><br>
 		<hr>
 		Data da Compra:<br>
 		<input type="date" name="date_bought"><br>

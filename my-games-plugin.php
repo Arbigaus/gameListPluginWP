@@ -90,7 +90,7 @@ class My_List_Games {
 	}
 
 	public static function del_item($item_id) {
-		echo $item_id;
+		return $item_id;
 	}
 
 	/*
