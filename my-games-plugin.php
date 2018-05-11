@@ -15,6 +15,23 @@ register_activation_hook( __FILE__, array ('My_List_Games', 'mgp_install' ));
 
 add_action( 'admin_menu', array ('My_List_Games','mgp_register_menu') );
 
+// var_dump($_GET);
+
+if(isset($_GET['del_item_id']) && isset($_GET['edit_item_id'])){
+	header("Location: http://wordpress.pc/wp-admin/admin.php?page=Gerenciar+Jogos");
+}
+
+if($_GET['del_item_id'] != '' && isset($_GET['del_item_id'])) {
+	
+	add_action('template_redirect', array ('My_List_Games', 'mgp_render_item'));
+
+}
+
+if($_GET['edit_item_id'] != '' && isset($_GET['edit_item_id'])) {
+	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+	add_utility_page( 'Editar', 'Editar', 'manage_options', 'Editar Jogo', array ('My_List_Games', 'mgp_render_item') );
+}
+
 class My_List_Games {
 
 	/*
@@ -69,12 +86,26 @@ class My_List_Games {
 
 		$data =	$wpdb->get_results("SELECT * FROM ".$table_name);
 
-
-
 		if(file_exists($file)) {
+			require_once $file;
+		}
+	}
+
+	public static function mgp_render_item($id){
+		global $title;
+		global $wpdb;
+
+		$file = plugin_dir_path(__FILE__)."mgp-item.php";
+
+		$table_name = $wpdb->prefix . "mgp_table";
+
+		$data =	$wpdb->get_row("SELECT * FROM ".$table_name. " WHERE id = ".$item_id );
+
+		if(file_exists($file)){
 			require $file;
 		}
-	}	
+
+	}
 
 	public static function mgp_file_upload($mgp_file) {
 		
@@ -84,13 +115,25 @@ class My_List_Games {
 		if ($uploaded && ! isset($uploaded['error'])) {
 			return $uploaded;
 		} else {
-			return $uploaded;		
+			return $uploaded;
 		}
 
 	}
 
 	public static function del_item($item_id) {
-		return $item_id;
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . "mgp_table";
+		
+		if(!empty($item_id)){
+			$data =	$wpdb->get_row("SELECT * FROM ".$table_name. " WHERE id = ".$item_id );			
+
+			$del_media = wp_delete_attachment($data->media_id);
+
+			$del_game = $wpdb->delete($table_name, array('id' => $item_id));			
+			
+		}
+
 	}
 
 	/*
