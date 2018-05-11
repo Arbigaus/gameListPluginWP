@@ -19,4 +19,6 @@ if(isset($_FILES['capa']) && !empty($_FILES['capa']['name'])){
 	} else {
 			echo $uploaded['error'];
 	}
+} else {
+	echo 'Favor inserir uma imagem.';
 }

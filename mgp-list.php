@@ -15,7 +15,7 @@
 	<tbody>
 		<?php foreach ($data as $game): ?>
 		<tr>
-			<td><img src="<?php echo wp_get_attachment_image_src($game->media_id)[0]; ?>" alt="<?php echo $game->game_name; ?>"></td>
+			<td><img src="<?php echo wp_get_attachment_url($game->media_id); ?>" alt="<?php echo $game->game_name; ?>" style="width: 150px" /></td>
 			<td><h2><?php echo $game->game_name; ?></h2></td>
 			<td><?php echo $game->game_year; ?></td>
 			<td>Comprado em: <?php echo $game->date_bought; ?></td>

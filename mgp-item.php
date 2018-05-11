@@ -1,29 +1,28 @@
 <h1><?php echo $data->game_name; ?></h1>
 
-<p><h1>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</h1>
+<br><img src="<?php echo wp_get_attachment_url($data->media_id); ?>" alt="<?php echo $data->game_name; ?>" style="width: 150px">
 
-<p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
+<div class="wrap">
+<h1><?php echo $title; ?></h1>
 
-<h2>Header Level 2</h2>
+<link rel="stylesheet" type="text/css" href="<?php  ?>">
+	<form action="<?php echo $_SERVER['REQUEST_URI']; ?>" method="POST" accept-charset="utf-8" enctype="multipart/form-data" >
+		<hr>
+		Nome do Jogo:<br>
+		<input type="text" name="game_name" placeholder="Nome do Jogo" value="<?php echo $data->game_name; ?>"><br>
+		<hr>
+		Ano de lançamento:<br>
+		<input type="number" name="game_year" placeholder="Ano" value="<?php echo $data->game_year; ?>"><br>
+		<hr>
+		Data da Compra:<br>
+		<input type="date" name="date_bought" value="<?php echo $data->date_bought; ?>"><br>
+		<hr>
+		Capa do Jogo:<br>
+		<input type="file" name="capa" id="capa" value="" placeholder="" /><br>
 
-<ol>
-	<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-	<li>Aliquam tincidunt mauris eu risus.</li>
-</ol>
+		<?php submit_button('Salvar'); ?> <a class="button button-secondary" href="http://wordpress.pc/wp-admin/admin.php?page=Gerenciar+Jogos&del_item_id=<?php echo $data->id; ?>">Deletar</a>
+	</form>
 
-<blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
+</div>
 
-<h3>Header Level 3</h3>
-
-<ul>
-	<li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-	<li>Aliquam tincidunt mauris eu risus.</li>
-</ul>
-
-<pre><code>
-#header h1 a { 
-	display: block; 
-	width: 300px; 
-	height: 80px; 
-}
-</code></pre> </p>
+<?php require('mgp-form-edit.php'); ?>

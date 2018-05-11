@@ -23,13 +23,12 @@ if(isset($_GET['del_item_id']) && isset($_GET['edit_item_id'])){
 
 if($_GET['del_item_id'] != '' && isset($_GET['del_item_id'])) {
 	
-	add_action('template_redirect', array ('My_List_Games', 'mgp_render_item'));
+	My_List_Games::del_item($_GET['del_item_id']);
 
 }
 
 if($_GET['edit_item_id'] != '' && isset($_GET['edit_item_id'])) {
-	require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-	add_utility_page( 'Editar', 'Editar', 'manage_options', 'Editar Jogo', array ('My_List_Games', 'mgp_render_item') );
+	header("Location: http://wordpress.pc/wp-admin/admin.php?page=Editar+Jogo&item_id=".$_GET['edit_item_id']);	
 }
 
 class My_List_Games {
@@ -55,6 +54,15 @@ class My_List_Games {
 	    	'manage_options',
 	    	'Adicionar Jogos',
 	    	array (__CLASS__, 'mgp_render_form')
+	    );
+
+	    $edit = add_submenu_page(
+	    	'Editar Jogo', 
+	    	'Editar Jogo',
+	    	null,
+	    	'manage_options',
+	    	'Editar Jogo',
+	    	array (__CLASS__, 'mgp_render_item')
 	    );
 	}
 
@@ -87,19 +95,18 @@ class My_List_Games {
 		$data =	$wpdb->get_results("SELECT * FROM ".$table_name);
 
 		if(file_exists($file)) {
-			require_once $file;
+			require $file;
 		}
 	}
 
-	public static function mgp_render_item($id){
-		global $title;
+	public static function mgp_render_item(){
 		global $wpdb;
 
 		$file = plugin_dir_path(__FILE__)."mgp-item.php";
 
 		$table_name = $wpdb->prefix . "mgp_table";
 
-		$data =	$wpdb->get_row("SELECT * FROM ".$table_name. " WHERE id = ".$item_id );
+		$data =	$wpdb->get_row("SELECT * FROM ".$table_name. " WHERE id = ".$_GET['item_id'] );
 
 		if(file_exists($file)){
 			require $file;
