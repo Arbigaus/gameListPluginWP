@@ -1,4 +1,6 @@
 <?php defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
+error_reporting(E_ALL);
+ini_set("display_errors", 1);	
 /*
 	Plugin Name:  My Games
 	Plugin URI:   
@@ -21,23 +23,25 @@ if(isset($_GET['del_item_id']) && isset($_GET['edit_item_id'])){
 	header("Location: http://wordpress.pc/wp-admin/admin.php?page=Gerenciar+Jogos");
 }
 
-if($_GET['del_item_id'] != '' && isset($_GET['del_item_id'])) {
+if (isset($_GET['del_item_id']) && $_GET['del_item_id'] != '') {
 	
 	My_List_Games::del_item($_GET['del_item_id']);
 
 }
-
-if($_GET['edit_item_id'] != '' && isset($_GET['edit_item_id'])) {
-	header("Location: http://wordpress.pc/wp-admin/admin.php?page=Editar+Jogo&item_id=".$_GET['edit_item_id']);	
+/*
+if (isset($_GET['edit_item_id']) && $_GET['edit_item_id'] != '') {
+	header("Location: http://wordpress.pc/wp-admin/admin.php?page=Editar+Jogo&item_id=".$_GET['edit_item_id']);
+	die;
 }
+*/
 
 class My_List_Games {
 
 	/*
 		Register the menus to admin List Games
-	*/
+	*/ 
 
-	function mgp_register_menu()
+	public static function mgp_register_menu()
 	{
 	    $main = add_menu_page(
 	      'Lista Jogos',    // page title
@@ -70,7 +74,7 @@ class My_List_Games {
 		Render the Form 
 	 */
 
-	function mgp_render_form() {
+	public static function mgp_render_form() {
 		global $title;
 
 		$file = plugin_dir_path( __FILE__ ) . "mgp-form.php";
@@ -84,7 +88,7 @@ class My_List_Games {
 		Render the List
 	 */
 
-	function mgp_render_list() {
+	public static function mgp_render_list() {
 		global $title;
 		global $wpdb;
 
@@ -101,12 +105,13 @@ class My_List_Games {
 
 	public static function mgp_render_item(){
 		global $wpdb;
+		global $title;
 
 		$file = plugin_dir_path(__FILE__)."mgp-item.php";
 
 		$table_name = $wpdb->prefix . "mgp_table";
 
-		$data =	$wpdb->get_row("SELECT * FROM ".$table_name. " WHERE id = ".$_GET['item_id'] );
+		$data =	$wpdb->get_row("SELECT * FROM ".$table_name. " WHERE id = ".$_GET['edit_item_id'] );
 
 		if(file_exists($file)){
 			require $file;
@@ -169,3 +174,4 @@ class My_List_Games {
 	}
 
 }
+?>

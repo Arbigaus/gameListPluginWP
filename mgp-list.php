@@ -19,7 +19,7 @@
 			<td><h2><?php echo $game->game_name; ?></h2></td>
 			<td><?php echo $game->game_year; ?></td>
 			<td>Comprado em: <?php echo $game->date_bought; ?></td>
-			<td><a class="button button-primary" href="<?php echo $url; ?>&edit_item_id=<?php echo $game->id; ?>">Editar</a></td>
+			<td><a class="button button-primary" href="http://wordpress.pc/wp-admin/admin.php?page=Editar+Jogo&edit_item_id=<?php echo $game->id; ?>">Editar</a></td>
 			<td><a class="button button-secondary" href="<?php echo $url; ?>&del_item_id=<?php echo $game->id; ?>">Deletar</a></td>
 		</tr>
 		<?php endforeach; ?>
